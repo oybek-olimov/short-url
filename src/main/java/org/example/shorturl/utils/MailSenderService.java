@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,6 +21,9 @@ import java.util.Map;
 public class MailSenderService {
     private final JavaMailSender javaMailSender;
     private final Configuration configuration;
+
+    private static final String EMAIL = "shorturl@info.com";
+
 
     public MailSenderService(JavaMailSender javaMailSender, Configuration configuration) {
         this.javaMailSender = javaMailSender;
@@ -47,4 +51,27 @@ public class MailSenderService {
         }
     }
 
+    @Async
+    public void sendActivationMail(Map<String, String> model) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper.setFrom(EMAIL);
+            mimeMessageHelper.setTo(model.get("to"));
+            mimeMessageHelper.setSubject("Activation Email For SHORT URL");
+            FileSystemResource fileSystemResource = new FileSystemResource("C:\\Java\\git\\short-url\\src\\main\\resources\\static.img\\logo.png");
+            mimeMessageHelper.addInline("logo_id",fileSystemResource);
+
+            Template template = configuration.getTemplate("activation.ftlh");
+            String url = "http://localhost:8080/api/auth/activate/" + model.get("code");
+
+            Map<String, String> objectModel = Map.of("url", url);
+
+            String htmlMailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, objectModel);
+            mimeMessageHelper.setText(htmlMailContent, true);
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException | IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+    }
 }

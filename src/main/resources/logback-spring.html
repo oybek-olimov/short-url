@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <property name="LOGS" value="./application_logs"></property>
+  <property name="LOGS" value="./application_logs"/>
 
   <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
     <layout class="ch.qos.logback.classic.PatternLayout">
@@ -26,19 +26,19 @@
       </timeBasedFileNamingAndTriggeringPolicy>
     </rollingPolicy>
   </appender>
-  <appender name="TelegramAppender" class="uz.pdp.springboot.springboot.utils.TelegramAppender">
+  <appender name="TelegramAppender" class="org.example.shorturl.utils.TelegramAppender">
   </appender>
 
   <root level="info">
-    <appender-ref ref="RollingFile"></appender-ref>
-    <appender-ref ref="Console"></appender-ref>
-    <appender-ref ref="TelegramAppender"></appender-ref>
+    <appender-ref ref="RollingFile"/>
+    <appender-ref ref="Console"/>
+    <appender-ref ref="TelegramAppender"/>
   </root>
 
-  <logger name="uz.pdp.springboot" level="info" additivity="false">
-    <appender-ref ref="RollingFile"></appender-ref>
-    <appender-ref ref="Console"></appender-ref>
-    <appender-ref ref="TelegramAppender"></appender-ref>
+  <logger name="springboot" level="info" additivity="false">
+    <appender-ref ref="RollingFile"/>
+    <appender-ref ref="Console"/>
+    <appender-ref ref="TelegramAppender"/>
   </logger>
 
 </configuration>

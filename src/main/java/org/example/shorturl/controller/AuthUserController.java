@@ -27,4 +27,6 @@ public class AuthUserController {
         return ResponseEntity.status(201).body(authUserService.register(dto));
     }
 
+
+
 }

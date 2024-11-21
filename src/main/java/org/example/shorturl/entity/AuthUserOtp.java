@@ -1,12 +1,16 @@
 package org.example.shorturl.entity;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Future;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,19 +18,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-public class AuthUser extends Auditable {
+public class AuthUserOtp extends Auditable{
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
+    @Column(unique = true,nullable = false)
+    private String code;
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
+    private Long userId;
+    @Future
     @Column(nullable = false)
-    private String role;
-
-    private boolean active;
+    private LocalDateTime expiresAt;
 }
