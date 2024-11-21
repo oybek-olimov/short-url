@@ -1,0 +1,51 @@
+spring:
+  profiles:
+    active: dev
+  freemarker:
+    template-loader-path: 'classpath:/templates'
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  mail:
+    host: 'sandbox.smtp.mailtrap.io'
+    port: 587
+    username: 7a604379444c39
+    password: 7e6efd86ec294e
+    properties:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shorturl
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shorturl
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
