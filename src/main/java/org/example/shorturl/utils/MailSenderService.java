@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.example.shorturl.dtos.url.WeaklyReport;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -68,6 +69,26 @@ public class MailSenderService {
             Map<String, String> objectModel = Map.of("url", url);
 
             String htmlMailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, objectModel);
+            mimeMessageHelper.setText(htmlMailContent, true);
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException | IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Async
+    public void sendWeaklyReport(Map<String,Object> model) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper.setFrom(EMAIL);
+            mimeMessageHelper.setTo((String) model.get("to"));
+            mimeMessageHelper.setSubject("Weakly Report");
+
+            Template template = configuration.getTemplate("report.ftlh");
+
+
+            String htmlMailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
             mimeMessageHelper.setText(htmlMailContent, true);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException | IOException | TemplateException e) {
