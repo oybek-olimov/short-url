@@ -18,6 +18,7 @@ public class AuthUserOtpServiceImpl implements AuthUserOtpService {
 
     private final AuthUserOtpRepository authUserOtpRepository;
     private final BaseUtils utils;
+
     @Override
     public AuthUserOtp create(@NonNull AuthUserOtp authUserOtp) {
         return authUserOtpRepository.save(authUserOtp);
@@ -28,7 +29,7 @@ public class AuthUserOtpServiceImpl implements AuthUserOtpService {
         AuthUserOtp authUserOtp = AuthUserOtp.builder()
                 .code(utils.generateOtp(authUser.getId()))
                 .userId(authUser.getId())
-                .expiresAt(LocalDateTime.now().plusMinutes(5))
+                .expiresAt(LocalDateTime.now().plusMinutes(10))
                 .build();
         return create(authUserOtp);
     }

@@ -9,4 +9,8 @@ public interface AuthUserService {
 
     String generateToken(@NonNull GenerateTokenRequest request);
 
+    String activateAccount(@NonNull String code);
+
+    String resendActivationCode(@NonNull String email);
+
 }

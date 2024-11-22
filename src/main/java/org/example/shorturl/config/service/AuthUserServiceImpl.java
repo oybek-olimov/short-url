@@ -7,6 +7,7 @@ import org.example.shorturl.dtos.auth.AuthUserCreateDto;
 import org.example.shorturl.dtos.auth.GenerateTokenRequest;
 import org.example.shorturl.entity.AuthUser;
 import org.example.shorturl.entity.AuthUserOtp;
+import org.example.shorturl.repository.AuthUserOtpRepository;
 import org.example.shorturl.repository.AuthUserRepository;
 import org.example.shorturl.utils.MailSenderService;
 import org.springframework.lang.NonNull;
@@ -30,6 +31,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     private final MailSenderService mailSenderService;
     private final AuthUserOtpService authUserOtpService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthUserOtpRepository authUserOtpRepository;
 
     @Override
     public String register(@NonNull AuthUserCreateDto dto) {
@@ -60,6 +62,32 @@ public class AuthUserServiceImpl implements AuthUserService {
         return jwtTokenUtil.generateToken(username);
     }
 
+    @Override
+    public String activateAccount(String code) {
+        AuthUserOtp otp = authUserOtpRepository.findByCodeIgnoreCase(code)
+                .orElseThrow(() -> new RuntimeException("Invalid Code"));
+        if(otp.getExpiresAt().isBefore(LocalDateTime.now())){
+            otp.setDeleted(false);
+            throw new RuntimeException("Code id expired");
+        }
+        Long userId = otp.getUserId();
+        authUserRepository.activateUser(userId);
+        return "Account Successfully Activated";
+    }
+
+    @Override
+    public String resendActivationCode(String email) {
+        AuthUser authUser = authUserRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User with this email not found"));
+        AuthUserOtp otp = authUserOtpService.createOTP(authUser);
+
+        Map<String,String> model = new HashMap<>();
+        model.put("to",authUser.getEmail());
+        model.put("code",otp.getCode());
+
+        mailSenderService.sendActivationMail(model);
+        return "Activation code resent successfully";
+    }
 
 
 }
