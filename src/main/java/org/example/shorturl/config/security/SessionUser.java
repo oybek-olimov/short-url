@@ -18,8 +18,8 @@ public class SessionUser {
         Object principal = authentication.getPrincipal();
         if ( principal instanceof UserDetails ud )
             return ud;
-        else
-            throw new RuntimeException("401 UNAUTHORIZED");
+
+        return null;
     }
 
     public Long id() {
