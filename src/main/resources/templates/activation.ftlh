@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,10 +39,10 @@
 </head>
 <body>
 <div>
-    <img src="../src/main/resources/static.img/logo.png" alt="url logo" class="center"/>
+    <img src="cid:logo_id" alt="url logo" class="center"/>
     <h1>Welcome To <span style="color: #ff8400">SHORT</span>URL</h1>
     <h2 style="color: #082fff">In Order TO Activate Your Account Click Activate Link Below</h2>
-    <a href="url">activate</a>
+    <a href="${url}">Activate</a>
 </div>
 </body>
 </html>

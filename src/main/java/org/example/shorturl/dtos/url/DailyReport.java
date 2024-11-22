@@ -12,9 +12,7 @@ import java.util.List;
 public class DailyReport {
     private String dayName;
     private Integer dayNumber;
-
     private Integer count;
-
     private List<UrlReport> reports;
 
     public DailyReport(Integer dayNumber, List<UrlReport> reports) {

@@ -2,7 +2,7 @@ package org.example.shorturl.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.shorturl.config.service.AuthUserService;
+import org.example.shorturl.service.AuthUserService;
 import org.example.shorturl.dtos.auth.AuthUserCreateDto;
 import org.example.shorturl.dtos.auth.GenerateTokenRequest;
 import org.springframework.http.ResponseEntity;

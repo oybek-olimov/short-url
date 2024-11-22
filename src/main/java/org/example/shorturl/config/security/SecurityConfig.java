@@ -3,7 +3,7 @@ package org.example.shorturl.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletOutputStream;
-import org.example.shorturl.response.AppErrorDto;
+import org.example.shorturl.dtos.response.AppErrorDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

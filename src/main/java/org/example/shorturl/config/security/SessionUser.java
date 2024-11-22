@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.Objects;
 
 @Component
@@ -17,7 +18,8 @@ public class SessionUser {
         Object principal = authentication.getPrincipal();
         if ( principal instanceof UserDetails ud )
             return ud;
-        return null;
+        else
+            throw new RuntimeException("401 UNAUTHORIZED");
     }
 
     public Long id() {

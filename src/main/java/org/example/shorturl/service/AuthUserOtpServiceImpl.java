@@ -1,11 +1,10 @@
-package org.example.shorturl.config.service;
+package org.example.shorturl.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.example.shorturl.entity.AuthUser;
 import org.example.shorturl.entity.AuthUserOtp;
 import org.example.shorturl.repository.AuthUserOtpRepository;
-import org.example.shorturl.repository.AuthUserRepository;
 import org.example.shorturl.utils.BaseUtils;
 import org.springframework.stereotype.Service;
 

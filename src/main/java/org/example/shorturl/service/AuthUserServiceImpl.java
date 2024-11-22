@@ -1,7 +1,7 @@
-package org.example.shorturl.config.service;
+package org.example.shorturl.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.shorturl.config.mappers.AuthUserMapper;
+import org.example.shorturl.mappers.AuthUserMapper;
 import org.example.shorturl.config.security.JwtTokenUtil;
 import org.example.shorturl.dtos.auth.AuthUserCreateDto;
 import org.example.shorturl.dtos.auth.GenerateTokenRequest;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +66,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         AuthUserOtp otp = authUserOtpRepository.findByCodeIgnoreCase(code)
                 .orElseThrow(() -> new RuntimeException("Invalid Code"));
         if(otp.getExpiresAt().isBefore(LocalDateTime.now())){
-            otp.setDeleted(false);
+            otp.setDeleted(true);
             throw new RuntimeException("Code id expired");
         }
         Long userId = otp.getUserId();

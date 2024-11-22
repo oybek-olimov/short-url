@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class TelegramAppender extends AppenderBase<LoggingEvent> {
-
+    private final String chatID = "6333479586";
     private final String token = "7938073458:AAFggBMng80wZWOrMMt400obFE-01WxzHKo";
     private final TelegramBot telegramBot = new TelegramBot(token);
 
@@ -28,29 +28,14 @@ public class TelegramAppender extends AppenderBase<LoggingEvent> {
         });
     }
 
-    /*@Override
+    @Override
     protected void append(LoggingEvent loggingEvent) {
-        String chatID = "6333479586";
         SendMessage sendMessage = new SendMessage(chatID, loggingEvent.getFormattedMessage());
         sendMessage.parseMode(ParseMode.Markdown);
         telegramBot.execute(sendMessage);
-
-
-    }*/
-    @Override
-    protected void append(LoggingEvent loggingEvent) {
-        String chatID = "6333479586";
-        SendMessage sendMessage = new SendMessage(chatID, loggingEvent.getFormattedMessage());
-        sendMessage.parseMode(ParseMode.Markdown);
-
-        var response = telegramBot.execute(sendMessage);
-        if (!response.isOk()) {
-            System.err.println("Failed to send message to Telegram:");
-            System.err.println("Error Code: " + response.errorCode());
-            System.err.println("Description: " + response.description());
-        } else {
-            System.out.println("Message sent successfully to Telegram!");
-        }
     }
 
 }
+
+
+

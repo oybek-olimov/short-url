@@ -1,4 +1,4 @@
-package org.example.shorturl.config.service;
+package org.example.shorturl.service;
 
 import lombok.NonNull;
 import org.example.shorturl.dtos.url.WeaklyReport;
@@ -14,4 +14,6 @@ public interface UrlService {
     Page<Url> getPage(int page, int size);
 
     WeaklyReport getWeaklyReport();
+
+    void sendWeaklyReport();
 }

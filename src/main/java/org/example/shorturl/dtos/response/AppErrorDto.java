@@ -1,4 +1,4 @@
-package org.example.shorturl.response;
+package org.example.shorturl.dtos.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

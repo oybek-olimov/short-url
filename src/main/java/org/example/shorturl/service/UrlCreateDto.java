@@ -1,4 +1,4 @@
-package org.example.shorturl.config.service;
+package org.example.shorturl.service;
 
 import jakarta.validation.constraints.Future;
 import lombok.AllArgsConstructor;

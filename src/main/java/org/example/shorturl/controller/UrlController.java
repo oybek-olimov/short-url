@@ -3,9 +3,9 @@ package org.example.shorturl.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.example.shorturl.config.service.UrlCreateDto;
-import org.example.shorturl.config.service.UrlService;
-import org.example.shorturl.config.service.UrlServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.example.shorturl.service.UrlCreateDto;
+import org.example.shorturl.service.UrlService;
 import org.example.shorturl.dtos.url.WeaklyReport;
 import org.example.shorturl.entity.Url;
 import org.springframework.data.domain.Page;
@@ -21,13 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 public class UrlController {
 
     private final UrlService urlService;
-
-    public UrlController(UrlService urlService) {
-        this.urlService = urlService;
-    }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/api/url")
@@ -49,15 +46,15 @@ public class UrlController {
 
 
     @PreAuthorize("permitAll()")
-    @GetMapping("/")
+    @GetMapping("/{code}")
     public void redirectTo(@PathVariable String code, HttpServletResponse response) throws IOException {
        Url url = urlService.getByCode(code);
        response.sendRedirect(url.getUrl());
     }
 
-    @PreAuthorize("isAuthenticated()")
+    /*@PreAuthorize("isAuthenticated()")
     @GetMapping("/api/url/report")
     public WeaklyReport getWeaklyReport(){
         return urlService.getWeaklyReport();
-    }
+    }*/
 }

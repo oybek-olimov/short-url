@@ -1,8 +1,8 @@
-package org.example.shorturl.config.service;
+package org.example.shorturl.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.example.shorturl.config.mappers.UrlMapper;
+import org.example.shorturl.mappers.UrlMapper;
 import org.example.shorturl.config.security.SessionUser;
 import org.example.shorturl.config.security.UserDetails;
 import org.example.shorturl.dtos.url.DailyReport;
@@ -68,23 +68,30 @@ public class UrlServiceImpl implements UrlService {
         AtomicInteger count = new AtomicInteger(0);
 
         List<DailyReport> dailyReports = new ArrayList<>();
-        urls.stream().map(UrlReport::new)
+        urls.stream()
+                .map(UrlReport::new)
                 .collect(Collectors.groupingBy(urlReport -> urlReport.getDayOfWeek().getValue()))
-                .forEach((dayNumber,urlsReports) -> {
-                    dailyReports.add(new DailyReport(dayNumber,urlsReports));
+                .forEach((dayNumber, urlsReports) -> {
+                    dailyReports.add(new DailyReport(dayNumber, urlsReports));
                     count.addAndGet(urlsReports.size());
                 });
-       WeaklyReport weaklyReport =  new WeaklyReport(
-               baseUtils.format(from),
-               baseUtils.format(to),
-               dailyReports,
-               count.get()
-       );
+        return new WeaklyReport(
+                baseUtils.format(from),
+                baseUtils.format(to),
+                dailyReports,
+                count.get()
+        );
+    }
+
+    @Override
+    public void sendWeaklyReport() {
+        WeaklyReport weaklyReport = getWeaklyReport();
         UserDetails user = sessionUser.user();
         String email = user.getEmail();
-        String username = user.getUsername();
-        Map<String, Object> model = Map.of("report", weaklyReport, "to", email,"username",username);
+        Map<String, Object> model = Map.of("report", weaklyReport,
+                "to", email,
+                "username", user.getUsername()
+        );
         mailSenderService.sendWeaklyReport(model);
-       return weaklyReport;
     }
 }

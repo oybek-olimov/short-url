@@ -1,4 +1,4 @@
-package org.example.shorturl.config.mappers;
+package org.example.shorturl.mappers;
 
 import org.example.shorturl.dtos.auth.AuthUserCreateDto;
 import org.example.shorturl.entity.AuthUser;

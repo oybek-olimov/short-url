@@ -1,4 +1,4 @@
-package org.example.shorturl.config.service;
+package org.example.shorturl.service;
 
 import org.example.shorturl.dtos.auth.AuthUserCreateDto;
 import org.example.shorturl.dtos.auth.GenerateTokenRequest;
